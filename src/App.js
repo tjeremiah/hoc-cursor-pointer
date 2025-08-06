@@ -15,17 +15,22 @@ const withMousePosition = (WrappedComponent) => {
 
     useEffect(() => {
       const handleMousePositionChange = (e) => {
+        setMousePosition({
+          x: e.clientX,
+          y: e.clientY,
+        });
 
-      }
-      window.addEventListener("mousemove", handleMousePointerChange);
+      };
+
+      window.addEventListener("mousemove", handleMousePositionChange);
 
       return () => {
         window.removeEventListener("mousemove", handleMousePositionChange);
       }
 
-    }, [])
+    }, []);
 
-    return <WrappedComponent {...props} />
+    return <WrappedComponent {...props} mousePosition={mousePosition} />
   };
 };
 
@@ -55,13 +60,16 @@ const PointMouseLogger = ({ mousePosition}) => {
   );
 };
 
+const PanelMouseTracker = withMousePosition(PanelMouseLogger);
+const PointMouseTracker= withMousePosition(PointMouseLogger);
+
 
 function App() {
   return (
     <div className="App">
       <header className="Header">Little Lemon Restaurant 🍕</header>
-      <PanelMouseLogger />
-      <PointMouseLogger />
+      <PanelMouseTracker />
+      <PointMouseTracker />
 
     </div>
   );
