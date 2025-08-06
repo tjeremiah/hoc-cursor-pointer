@@ -1,12 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react';
 
 //implementing HOC for mousepointer
 const withMousePosition = (WrappedComponent) => {
   return (props) => {
+
+    const [mousePosition, setMousePosition] = useState({
+      x:0,
+      y:0
+    });
+
+    //set global listener
+
+    useEffect(() => {
+      const handleMousePositionChange = (e) => {
+
+      }
+      window.addEventListener("mousemove", handleMousePointerChange);
+
+      return () => {
+        window.removeEventListener("mousemove", handleMousePositionChange);
+      }
+
+    }, [])
+
     return <WrappedComponent {...props} />
-  }
-}
+  };
+};
 
 const PanelMouseLogger = ({mousePosition}) => {
   if (!mousePosition) {
